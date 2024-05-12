@@ -1,5 +1,7 @@
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <main className="h-screen flex bg-medium-vermilion bg-body-pattern"></main>
+  );
 }
 
 export default App;
