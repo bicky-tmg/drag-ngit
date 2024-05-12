@@ -21,6 +21,14 @@ export default {
         "bevel-secondary":
           "inset 0.8rem 0.8rem 1rem 0 rgba(241,148,130,1), inset -1.25rem -1.25rem 1rem 0 rgba(216,109,117,1)",
       },
+      width: {
+        70: "70px",
+        448: "28rem",
+      },
+      height: {
+        70: "70px",
+        448: "28rem",
+      },
     },
   },
   plugins: [],
