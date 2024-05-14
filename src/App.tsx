@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { Card, CardBody, CardHeader } from "./components/Card";
 import { motion } from "framer-motion";
-
-const LENGTH = 5;
-const CARD_HEIGHT = 384;
-const CARD_SPACING = 35;
-
-const cards = Array.from({ length: LENGTH }, (_, idx) => idx + 1);
-
-const SWIPE_CONFIDENCE_THRESHOLD = 10000;
-const swipePower = (offset: number, velocity: number) => {
-  return Math.abs(offset) * velocity;
-};
+import {
+  CARDS,
+  CARD_HEIGHT,
+  CARD_SPACING,
+  LENGTH,
+  SWIPE_CONFIDENCE_THRESHOLD,
+} from "./constant/common";
+import { swipePower } from "./utils/swipePower";
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -79,7 +76,7 @@ function App() {
           }
         }}
       >
-        {cards.map((card, idx) => (
+        {CARDS.map((card, idx) => (
           <motion.div
             className="absolute top-30 transition-opacity"
             animate={{
