@@ -12,6 +12,7 @@ function App() {
 
   const halfwayIndex = Math.ceil(LENGTH / 2);
   const itemHeight = CARD_HEIGHT + CARD_SPACING;
+  const shuffleThreshold = halfwayIndex * itemHeight;
 
   const determinePlacement = (itemIndex: number) => {
     if (activeIndex === itemIndex) return 0;
@@ -27,6 +28,24 @@ function App() {
     if (itemIndex > activeIndex) {
       return (itemIndex - activeIndex) * itemHeight;
     }
+  };
+
+  const handleClick = (direction: "next" | "prev") => {
+    setActiveIndex((prevIndex) => {
+      if (direction === "next") {
+        if (prevIndex + 1 > LENGTH - 1) {
+          return 0;
+        }
+
+        return prevIndex + 1;
+      }
+
+      if (prevIndex - 1 < 0) {
+        return LENGTH - 1;
+      }
+
+      return prevIndex - 1;
+    });
   };
 
   return (
@@ -48,6 +67,10 @@ function App() {
             </Card>
           </div>
         ))}
+      </div>
+      <div className="absolute top-0 left-0">
+        <button onClick={() => handleClick("prev")}>Prev</button>
+        <button onClick={() => handleClick("next")}>Next</button>
       </div>
     </main>
   );
