@@ -28,6 +28,14 @@ function App() {
     if (itemIndex > activeIndex) {
       return (itemIndex - activeIndex) * itemHeight;
     }
+
+    if (itemIndex < activeIndex) {
+      if ((activeIndex - itemIndex) * itemHeight >= shuffleThreshold) {
+        return (LENGTH - (activeIndex - itemIndex)) * itemHeight;
+      }
+
+      return -(activeIndex - itemIndex) * itemHeight;
+    }
   };
 
   const handleClick = (direction: "next" | "prev") => {
