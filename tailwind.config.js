@@ -27,7 +27,7 @@ export default {
       },
       height: {
         70: "70px",
-        448: "28rem",
+        384: "24rem",
       },
     },
   },
