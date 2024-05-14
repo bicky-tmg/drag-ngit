@@ -1,11 +1,17 @@
 import { useState } from "react";
 import { Card, CardBody, CardHeader } from "./components/Card";
+import { motion } from "framer-motion";
 
 const LENGTH = 5;
 const CARD_HEIGHT = 384;
 const CARD_SPACING = 35;
 
 const cards = Array.from({ length: LENGTH }, (_, idx) => idx + 1);
+
+const SWIPE_CONFIDENCE_THRESHOLD = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
 
 function App() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -38,7 +44,7 @@ function App() {
     }
   };
 
-  const handleClick = (direction: "next" | "prev") => {
+  const handleDrag = (direction: "next" | "prev") => {
     setActiveIndex((prevIndex) => {
       if (direction === "next") {
         if (prevIndex + 1 > LENGTH - 1) {
@@ -58,12 +64,28 @@ function App() {
 
   return (
     <main className="h-screen overflow-hidden bg-medium-vermilion bg-body-pattern">
-      <div className="h-full flex-1 relative flex items-center justify-center">
+      <motion.div
+        className="h-full flex-1 relative flex items-center justify-center cursor-grab active:cursor-grabbing"
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={1}
+        onDragEnd={(_, { offset, velocity }) => {
+          const swipe = swipePower(offset.y, velocity.y);
+
+          if (swipe < -SWIPE_CONFIDENCE_THRESHOLD) {
+            handleDrag("next");
+          } else if (swipe > SWIPE_CONFIDENCE_THRESHOLD) {
+            handleDrag("prev");
+          }
+        }}
+      >
         {cards.map((card, idx) => (
-          <div
-            className="absolute top-30"
-            style={{
-              transform: `translateY(${determinePlacement(idx)}px)`,
+          <motion.div
+            className="absolute top-30 transition-opacity"
+            animate={{
+              translateY: `${determinePlacement(idx)}px`,
+              scale: activeIndex === idx ? 1 : 0.85,
+              opacity: activeIndex === idx ? 1 : 0.4,
             }}
             key={idx}
           >
@@ -73,13 +95,9 @@ function App() {
               </CardHeader>
               <CardBody />
             </Card>
-          </div>
+          </motion.div>
         ))}
-      </div>
-      <div className="absolute top-0 left-0">
-        <button onClick={() => handleClick("prev")}>Prev</button>
-        <button onClick={() => handleClick("next")}>Next</button>
-      </div>
+      </motion.div>
     </main>
   );
 }
