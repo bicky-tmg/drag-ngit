@@ -1,0 +1,7 @@
+const LENGTH = 5;
+const CARD_HEIGHT = 384;
+const CARD_SPACING = 35;
+const SWIPE_CONFIDENCE_THRESHOLD = 10000;
+const CARDS = Array.from({ length: LENGTH }, (_, idx) => idx + 1);
+
+export { LENGTH, CARDS, CARD_HEIGHT, CARD_SPACING, SWIPE_CONFIDENCE_THRESHOLD };
